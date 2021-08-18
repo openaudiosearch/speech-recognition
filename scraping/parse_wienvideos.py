@@ -384,7 +384,7 @@ def main(args):
                                         text.append(word)
                             text = ' '.join(text)
                             # Conversion AFTER number replacement
-                            text = re.sub(r"(\d+)/(\w+)", r"\1 \2", text)  # Law codes 
+                            text = re.sub(r"(\d+)/(\w+)", r"\1 \2", text)  # Law codes
                             text = text.replace(".", "")
                             text = text.replace("\\", ".")
                             text = text.replace(".", "")

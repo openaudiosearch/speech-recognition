@@ -14,3 +14,5 @@ Dieser Ordner beinhaltet Python-Skripte für das Scraping, Parsing, und Aufberei
 - Daten von Videos der Stadt Wien
 
   * `crawl_wienvideos.py`: Skript zum Download von Videos und Untertiteln von Videos der Stadt Wien.
+
+  * `parse_wienvideos.py`: Skript zum Parsing von Untertiteln von Videos der Stadt Wien.
