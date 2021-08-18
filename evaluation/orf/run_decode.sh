@@ -83,10 +83,9 @@ if [ $stage -le 0 ]; then
 fi
 
 # Perform scoring
-#if [ $stage -le 2 ]; then
-#  local/score.sh --cmd "$train_cmd" $scoring_opts data/cba_test_200408 $asr_nnet_dir/graph $asr_nnet_dir/decode_cba_test_200408
-#  local/score.sh --cmd "$train_cmd" $scoring_opts data/orf_202012 $asr_nnet_dir/graph $asr_nnet_dir/decode_orf_202012
-#fi
+if [ $stage -le 2 ]; then
+  local/score.sh --cmd "$train_cmd" $scoring_opts data/${test_sets} $asr_nnet_dir/graph $asr_nnet_dir/decode_${test_sets}
+fi
 
 exit 0;
 # Get automatic transcripts in Conversation Time Mark (CTM) format
