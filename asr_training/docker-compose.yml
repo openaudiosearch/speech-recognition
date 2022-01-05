@@ -1,0 +1,20 @@
+version: '3'
+services:
+  asr-training:
+    # stdin_open: true
+    # tty: true
+    image: openaudiosearch/asr-training:0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /mnt/data2/projects/TALP/parl-20210719_segments/:/app/data/
+      - /mnt/data2/projects/TALP/asr_exp:/app/exp/
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0', '1', '2', '3']
+              capabilities:
+              - gpu

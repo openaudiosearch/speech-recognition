@@ -27,8 +27,8 @@ set -euo pipefail
 # (some of which are also used in this script directly).
 stage=0
 decode_nj=10
-train_set=oed_train
-test_sets=oed_test
+train_set=train
+test_sets=test
 gmm=tri3b
 nnet3_affix=
 
@@ -344,7 +344,6 @@ fi
 if [ $stage -le 24 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Do the speaker-dependent decoding pass
-  test_sets=oed_test
   for data in $test_sets; do
     (
       nspk=$(wc -l <data/${data}_hires/spk2utt)
