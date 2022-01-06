@@ -9,7 +9,12 @@ services:
       dockerfile: Dockerfile
     volumes:
       - /mnt/data2/projects/TALP/parl-20210719_segments/:/app/data/
-      - /mnt/data2/projects/TALP/asr_exp:/app/exp/
+      - /mnt/data2/projects/TALP/asr_exp:/opt/kaldi/egs/oas/s5/exp
+      - /mnt/data2/projects/TALP/asr_data:/opt/kaldi/egs/oas/s5/data
+    environment:
+      - NJ_FEAT=10
+      - NJ_TRAIN=5
+      - STAGE=9
     deploy:
       resources:
         reservations:

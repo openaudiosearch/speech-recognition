@@ -3,17 +3,18 @@
 . ./cmd.sh
 . ./path.sh
 
-stage=0
+stage=$STAGE
 . utils/parse_options.sh
 
 set -euo pipefail
 
 if [ $stage -le 0 ]; then
   mkdir -p data/train
-  awk '{id=$1; gsub(/\//, "-", id); gsub(/\.wav/, "", id); print id,$1}' /app/data/metadata.csv >data/train/wav.scp
-  awk '{id=$1; gsub(/\//, "-", id); gsub(/\.wav/, "", id); gsub(/<unk> /, "", $2); print id,$2}' /app/data/metadata.csv >data/train/text
+  awk '{id=$1; gsub(/\//, "-", id); gsub(/\.wav/, "", id); print id,"/app/data/"$1}' /app/data/metadata.csv >data/train/wav.scp
+  awk '{id=$1; gsub(/\//, "-", id); gsub(/\.wav/, "", id); printf("%s", id); for(i=2;i<=NF;i++){gsub(/<unk>/, "", $i); if($i!="") { printf(" %s", $i);}} printf("\n");}' /app/data/metadata.csv >data/train/text
   awk '{id=$1; gsub(/\//, "-", id); gsub(/\.wav/, "", id); print id,id}' /app/data/metadata.csv >data/train/utt2spk
   utils/utt2spk_to_spk2utt.pl data/train/utt2spk >data/train/spk2utt
+  utils/fix_data_dir.sh data/train
 fi
 
 if [ $stage -le 1 ]; then
@@ -34,7 +35,7 @@ fi
 if [ $stage -le 2 ]; then
   mfccdir=mfcc
   for part in train; do
-    steps/make_mfcc.sh --cmd "$train_cmd" --nj 10 data/$part exp/make_mfcc/$part $mfccdir
+    steps/make_mfcc.sh --cmd "$train_cmd" --nj $NJ_FEAT data/$part exp/make_mfcc/$part $mfccdir
     steps/compute_cmvn_stats.sh data/$part exp/make_mfcc/$part $mfccdir
   done
 
@@ -45,10 +46,10 @@ fi
 
 # train a monophone system
 if [ $stage -le 3 ]; then
-  steps/train_mono.sh --boost-silence 1.25 --nj 5 --cmd "$train_cmd" \
+  steps/train_mono.sh --boost-silence 1.25 --nj $NJ_TRAIN --cmd "$train_cmd" \
     data/train_500short data/lang_nosp exp/mono
 
-  steps/align_si.sh --boost-silence 1.25 --nj 5 --cmd "$train_cmd" \
+  steps/align_si.sh --boost-silence 1.25 --nj $NJ_TRAIN --cmd "$train_cmd" \
     data/train data/lang_nosp exp/mono exp/mono_ali_train
 fi
 
@@ -57,7 +58,7 @@ if [ $stage -le 4 ]; then
   steps/train_deltas.sh --boost-silence 1.25 --cmd "$train_cmd" \
     2000 10000 data/train data/lang_nosp exp/mono_ali_train exp/tri1
 
-  steps/align_si.sh --nj 5 --cmd "$train_cmd" \
+  steps/align_si.sh --nj $NJ_TRAIN --cmd "$train_cmd" \
     data/train data/lang_nosp exp/tri1 exp/tri1_ali_train
 fi
 
@@ -68,7 +69,7 @@ if [ $stage -le 5 ]; then
     data/train data/lang_nosp exp/tri1_ali_train exp/tri2b
 
   # Align utts using the tri2b model
-  steps/align_si.sh  --nj 5 --cmd "$train_cmd" --use-graphs true \
+  steps/align_si.sh  --nj $NJ_TRAIN --cmd "$train_cmd" --use-graphs true \
     data/train data/lang_nosp exp/tri2b exp/tri2b_ali_train
 fi
 
@@ -95,7 +96,7 @@ if [ $stage -le 7 ]; then
 
   utils/build_const_arpa_lm.sh data/local/lm.wb.3g.gz data/lang data/lang_test_tglarge
 
-  steps/align_fmllr.sh --nj 5 --cmd "$train_cmd" \
+  steps/align_fmllr.sh --nj $NJ_TRAIN --cmd "$train_cmd" \
     data/train data/lang exp/tri3b exp/tri3b_ali_train
 fi
 

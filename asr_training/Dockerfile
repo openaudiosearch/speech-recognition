@@ -25,6 +25,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         gfortran \
         ca-certificates \
         patch \
+        liblbfgs-dev \
+        gawk \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
@@ -42,9 +44,11 @@ RUN git clone --depth 1 https://github.com/kaldi-asr/kaldi.git /opt/kaldi && \
     #find /opt/intel -type f -name "*.a" -exec rm {} \; && \
     #find /opt/intel -type f -regex '.*\(_mc.?\|_mic\|_thread\|_ilp64\)\.so' -exec rm {} \; && \
 
+RUN mkdir -p /opt/kaldi/tools/liblbfgs-1.10
+
 RUN cd /opt/kaldi/tools && \
-    ./extras/install_kaldi_lm.sh && \
-    ./extras/install_phonetisaurus.sh
+    ./extras/install_srilm.sh OAS openaudiosearch info@arso.xyz
+
 
 FROM nvidia/cuda:11.3.0-runtime-ubuntu20.04
 
@@ -55,7 +59,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Vienna
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        locales sox python2.7 python3 python-is-python3 ffmpeg \
+        locales sox python2.7 python3 python-is-python3 libgfortran5 libencode-perl liblbfgs0 \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
@@ -63,6 +67,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN locale-gen de_DE.UTF-8
 ENV LC_ALL=de_DE.UTF-8
 ENV LANG=de_DE.UTF-8
+
+# Number of parallel feature extraction jobs
+ARG NJ_FEAT=10
+ENV NJ_FEAT=$NJ_FEAT
+
+# Number of parallel training jobs
+ARG NJ_TRAIN=4
+ENV NJ_TRAIN=$NJ_TRAIN
+
+# Number of parallel training jobs
+ARG STAGE=0
+ENV STAGE=$STAGE
 
 COPY s5 /opt/kaldi/egs/oas/s5
 COPY s5_subword /opt/kaldi/egs/oas/s5_subword

@@ -16,7 +16,7 @@ order=3
 # Prepare a LM training corpus from the transcripts
 mkdir -p $locdata
 cut -f2- -d' ' < $data/text |\
-  sed -e 's:[ ]\+: :g' | sort -u > $locdata/corpus.txt
+  sed -e 's:[ ]+: :g' | sort -u > $locdata/corpus.txt
 
 loc=`which ngram-count`;
 if [ -z $loc ]; then
