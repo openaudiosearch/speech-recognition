@@ -1,0 +1,29 @@
+version: '3'
+services:
+  asr-training:
+    # stdin_open: true
+    # tty: true
+    image: openaudiosearch/asr-training:0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /path/containing/metadata-csv-and-data/:/app/data/
+      - /output/path/models/:/opt/kaldi/egs/oas/s5/exp
+      - /output/path/kaldi-data-structures:/opt/kaldi/egs/oas/s5/data
+    environment:
+      - METADATA_TRAIN=/app/data/metadata_train.csv
+      - METADATA_TEST=/app/data/metadata_test.csv
+      - NJ_FEAT=10
+      - NJ_TRAIN=5
+      - NJ_DECODE=5
+      - DO_DECODE=1
+      - STAGE=0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0', '1', '2', '3']
+              capabilities:
+              - gpu

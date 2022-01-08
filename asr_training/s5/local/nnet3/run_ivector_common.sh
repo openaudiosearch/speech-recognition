@@ -9,8 +9,8 @@ set -euo pipefail
 # of usage.
 
 stage=0
-train_set=oed_train
-test_sets="oed_test"
+train_set=train
+test_sets="test"
 gmm=tri3b
 
 online_cmvn_iextractor=false
@@ -31,32 +31,27 @@ for f in data/${train_set}/feats.scp ${gmm_dir}/final.mdl; do
   fi
 done
 
-if [ $stage -le 1 ]; then
+if [ $stage -le 11 ]; then
   # Although the nnet will be trained by high resolution data, we still have to
   # perturb the normal data to get the alignment _sp stands for speed-perturbed
   echo "$0: preparing directory for low-resolution speed-perturbed data (for alignment)"
   utils/data/perturb_data_dir_speed_3way.sh data/${train_set} data/${train_set}_sp
   echo "$0: making MFCC features for low-resolution speed-perturbed data"
-  steps/make_mfcc.sh --cmd "$train_cmd" --nj 10 data/${train_set}_sp || exit 1;
+  steps/make_mfcc.sh --cmd "$train_cmd" --nj $NJ_FEAT data/${train_set}_sp || exit 1;
   steps/compute_cmvn_stats.sh data/${train_set}_sp || exit 1;
   utils/fix_data_dir.sh data/${train_set}_sp
 fi
 
-if [ $stage -le 2 ]; then
+if [ $stage -le 12 ]; then
   echo "$0: aligning with the perturbed low-resolution data"
-  steps/align_fmllr.sh --nj 20 --cmd "$train_cmd" \
+  steps/align_fmllr.sh --nj $NJ_TRAIN --cmd "$train_cmd" \
     data/${train_set}_sp data/lang $gmm_dir $ali_dir || exit 1
 fi
 
-if [ $stage -le 3 ]; then
+if [ $stage -le 13 ]; then
   # Create high-resolution MFCC features (with 40 cepstra instead of 13).
   # this shows how you can split across multiple file-systems.
   echo "$0: creating high-resolution MFCC features"
-  mfccdir=data/${train_set}_sp_hires/data
-  if [[ $(hostname -f) == *.clsp.jhu.edu ]] && [ ! -d $mfccdir/storage ]; then
-    utils/create_split_dir.pl /export/fs0{1,2}/$USER/kaldi-data/mfcc/mini_librispeech-$(date +'%m_%d_%H_%M')/s5/$mfccdir/storage $mfccdir/storage
-  fi
-
   for datadir in ${train_set}_sp ${test_sets}; do
     utils/copy_data_dir.sh data/$datadir data/${datadir}_hires
   done
@@ -66,14 +61,14 @@ if [ $stage -le 3 ]; then
   utils/data/perturb_data_dir_volume.sh data/${train_set}_sp_hires || exit 1;
 
   for datadir in ${train_set}_sp ${test_sets}; do
-    steps/make_mfcc.sh --nj 10 --mfcc-config conf/mfcc_hires.conf \
+    steps/make_mfcc.sh --nj $NJ_TRAIN --mfcc-config conf/mfcc_hires.conf \
       --cmd "$train_cmd" data/${datadir}_hires || exit 1;
     steps/compute_cmvn_stats.sh data/${datadir}_hires || exit 1;
     utils/fix_data_dir.sh data/${datadir}_hires || exit 1;
   done
 fi
 
-if [ $stage -le 4 ]; then
+if [ $stage -le 14 ]; then
   echo "$0: computing a subset of data to train the diagonal UBM."
   # We'll use about a quarter of the data.
   mkdir -p exp/nnet3${nnet3_affix}/diag_ubm
@@ -93,19 +88,19 @@ if [ $stage -le 4 ]; then
 
   echo "$0: training the diagonal UBM."
   # Use 512 Gaussians in the UBM.
-  steps/online/nnet2/train_diag_ubm.sh --cmd "$train_cmd" --nj 30 \
+  steps/online/nnet2/train_diag_ubm.sh --cmd "$train_cmd" --nj $NJ_FEAT \
     --num-frames 700000 \
     --num-threads 8 \
     ${temp_data_root}/${train_set}_sp_hires_subset 512 \
     exp/nnet3${nnet3_affix}/pca_transform exp/nnet3${nnet3_affix}/diag_ubm
 fi
 
-if [ $stage -le 5 ]; then
+if [ $stage -le 15 ]; then
   # Train the iVector extractor.  Use all of the speed-perturbed data since iVector extractors
   # can be sensitive to the amount of data.  The script defaults to an iVector dimension of
   # 100.
   echo "$0: training the iVector extractor"
-  steps/online/nnet2/train_ivector_extractor.sh --cmd "$train_cmd" --nj 15 \
+  steps/online/nnet2/train_ivector_extractor.sh --cmd "$train_cmd" --nj $NJ_FEAT \
      --num-threads 4 --num-processes 2 \
      --online-cmvn-iextractor $online_cmvn_iextractor \
      data/${train_set}_sp_hires exp/nnet3${nnet3_affix}/diag_ubm \
@@ -113,7 +108,7 @@ if [ $stage -le 5 ]; then
 fi
 
 
-if [ $stage -le 6 ]; then
+if [ $stage -le 16 ]; then
   # We extract iVectors on the speed-perturbed training data after combining
   # short segments, which will be what we train the system on.  With
   # --utts-per-spk-max 2, the script pairs the utterances into twos, and treats
@@ -136,14 +131,14 @@ if [ $stage -le 6 ]; then
   utils/data/modify_speaker_info.sh --utts-per-spk-max 2 \
     data/${train_set}_sp_hires ${temp_data_root}/${train_set}_sp_hires_max2
 
-  steps/online/nnet2/extract_ivectors_online.sh --cmd "$train_cmd" --nj 20 \
+  steps/online/nnet2/extract_ivectors_online.sh --cmd "$train_cmd" --nj $NJ_FEAT \
     ${temp_data_root}/${train_set}_sp_hires_max2 \
     exp/nnet3${nnet3_affix}/extractor $ivectordir
 
   # Also extract iVectors for the test data, but in this case we don't need the speed
   # perturbation (sp).
   for data in $test_sets; do
-    steps/online/nnet2/extract_ivectors_online.sh --cmd "$train_cmd" --nj 20 \
+    steps/online/nnet2/extract_ivectors_online.sh --cmd "$train_cmd" --nj $NJ_FEAT \
       data/${data}_hires exp/nnet3${nnet3_affix}/extractor \
       exp/nnet3${nnet3_affix}/ivectors_${data}_hires
   done
