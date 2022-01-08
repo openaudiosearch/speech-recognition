@@ -73,8 +73,16 @@ ARG NJ_FEAT=10
 ENV NJ_FEAT=$NJ_FEAT
 
 # Number of parallel training jobs
-ARG NJ_TRAIN=4
+ARG NJ_TRAIN=10
 ENV NJ_TRAIN=$NJ_TRAIN
+
+# Number of parallel decode jobs
+ARG NJ_DECODE=10
+ENV NJ_DECODE=$NJ_DECODE
+
+# Whether to decode after each training step
+ARG DO_DECODE=1
+ENV DO_DECODE=$DO_DECODE
 
 # Number of parallel training jobs
 ARG STAGE=0

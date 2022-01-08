@@ -109,7 +109,7 @@ for f in $gmm_dir/final.mdl $train_data_dir/feats.scp $train_ivector_dir/ivector
   [ ! -f $f ] && echo "$0: expected file $f to exist" && exit 1
 done
 
-if [ $stage -le 10 ]; then
+if [ $stage -le 17 ]; then
   echo "$0: creating lang directory $lang with chain-type topology"
   # Create a version of the lang/ directory that has one state per phone in the
   # topo file. [note, it really has two states.. the first one is only repeated
@@ -132,15 +132,15 @@ if [ $stage -le 10 ]; then
   fi
 fi
 
-if [ $stage -le 11 ]; then
+if [ $stage -le 18 ]; then
   # Get the alignments as lattices (gives the chain training more freedom).
   # use the same num-jobs as the alignments
-  steps/align_fmllr_lats.sh --nj 75 --cmd "$train_cmd" ${lores_train_data_dir} \
+  steps/align_fmllr_lats.sh --nj $NJ_TRAIN --cmd "$train_cmd" ${lores_train_data_dir} \
     data/lang $gmm_dir $lat_dir
   rm $lat_dir/fsts.*.gz # save space
 fi
 
-if [ $stage -le 12 ]; then
+if [ $stage -le 19 ]; then
   # Build a tree using our new topology.  We know we have alignments for the
   # speed-perturbed data (local/nnet3/run_ivector_common.sh made them), so use
   # those.  The num-leaves is always somewhat less than the num-leaves from
@@ -165,7 +165,7 @@ mkdir -p $dir/init/
 
 learning_rate_factor=$(echo "print (0.5/$xent_regularize)" | python)
 
-if [ $stage -le 14 ]; then
+if [ $stage -le 20 ]; then
 
   # Note: we'll use --bottom-subsampling-factor=3, so all time-strides for the
   # top network should be interpreted at the 30ms frame subsampling rate.
@@ -200,7 +200,7 @@ fi
 wait;
 
 init_info=$dir/init/info.txt
-if [ $stage -le 15 ]; then
+if [ $stage -le 21 ]; then
 
   if [ $dir/init/default_trans.mdl ]; then # checking this because it may have been copied in a previous run of the same script
       copy-transition-model $tree_dir/final.mdl $dir/init/default_trans.mdl  || exit 1 &
@@ -226,7 +226,7 @@ EOF
 fi
 
 # Make phone LM and denominator and normalization FST
-if [ $stage -le 16 ]; then
+if [ $stage -le 22 ]; then
   echo "$0: Making Phone LM and denominator and normalization FST"
   mkdir -p $dir/den_fsts/log
 
@@ -260,16 +260,7 @@ fi
 egs_left_context=$[model_left_context+(frame_subsampling_factor/2)+egs_extra_left_context]
 egs_right_context=$[model_right_context+(frame_subsampling_factor/2)+egs_extra_right_context]
 
-for d in $dir/raw_egs $dir/processed_egs; do
-  if [[ $(hostname -f) == *.clsp.jhu.edu ]] && [ ! -d $d/storage ] ; then
-    mkdir -p $d
-    utils/create_split_dir.pl \
-      /export/b0{3,4,5,6}/$USER/kaldi-data/egs/mini_librispeech-$(date +'%m_%d_%H_%M')/s5/$d/storage $d/storage
-  fi
-done
-
-
-if [ $stage -le 17 ]; then
+if [ $stage -le 23 ]; then
   echo "$0: about to dump raw egs."
   # Dump raw egs.
   steps/chain2/get_raw_egs.sh --cmd "$train_cmd" \
@@ -284,56 +275,56 @@ if [ $stage -le 17 ]; then
     ${train_data_dir} ${dir} ${lat_dir} ${dir}/raw_egs
 fi
 
-if [ $stage -le 18 ]; then
+if [ $stage -le 24 ]; then
   echo "$0: about to process egs"
   steps/chain2/process_egs.sh  --cmd "$train_cmd" \
       --num-repeats 1 \
     ${dir}/raw_egs ${dir}/processed_egs
 fi
 
-if [ $stage -le 19 ]; then
+if [ $stage -le 25 ]; then
   echo "$0: about to randomize egs"
   steps/chain2/randomize_egs.sh --frames-per-job 3000000 \
     ${dir}/processed_egs ${dir}/egs
 fi
 
-if [ $stage -le 20 ]; then
-    echo "$0: Training pre-conditioning matrix"
-    num_lda_jobs=`find ${dir}/egs/ -iname 'train.*.scp' | wc -l | cut -d ' ' -f2`
-    steps/chain2/compute_preconditioning_matrix.sh --cmd "$train_cmd" \
-        --nj $num_lda_jobs \
-        $dir/configs/init.raw \
-        $dir/egs \
-        $dir || exit 1
+if [ $stage -le 26 ]; then
+  echo "$0: Training pre-conditioning matrix"
+  num_lda_jobs=`find ${dir}/egs/ -iname 'train.*.scp' | wc -l | cut -d ' ' -f2`
+  steps/chain2/compute_preconditioning_matrix.sh --cmd "$train_cmd" \
+      --nj $num_lda_jobs \
+      $dir/configs/init.raw \
+      $dir/egs \
+      $dir || exit 1
 fi
 
-if [ $stage -le 21 ]; then
-    echo "$0: Preparing initial acoustic model"
-    if [ -f $dir/configs/init.config ]; then
-            $train_cmd ${dir}/log/add_first_layer.log \
-                    nnet3-init --srand=${srand} ${dir}/configs/init.raw \
-                    ${dir}/configs/final.config ${dir}/init/default.raw || exit 1
-    else
-            $train_cmd ${dir}/log/init_model.log \
-               nnet3-init --srand=${srand} ${dir}/configs/final.config ${dir}/init/default.raw || exit 1
-    fi
+if [ $stage -le 27 ]; then
+  echo "$0: Preparing initial acoustic model"
+  if [ -f $dir/configs/init.config ]; then
+    $train_cmd ${dir}/log/add_first_layer.log \
+            nnet3-init --srand=${srand} ${dir}/configs/init.raw \
+            ${dir}/configs/final.config ${dir}/init/default.raw || exit 1
+  else
+    $train_cmd ${dir}/log/init_model.log \
+        nnet3-init --srand=${srand} ${dir}/configs/final.config ${dir}/init/default.raw || exit 1
+  fi
 
-    $train_cmd $dir/log/init_mdl.log \
-        nnet3-am-init ${dir}/init/default_trans.mdl $dir/init/default.raw $dir/init/default.mdl || exit 1
+  $train_cmd $dir/log/init_mdl.log \
+      nnet3-am-init ${dir}/init/default_trans.mdl $dir/init/default.raw $dir/init/default.mdl || exit 1
 fi
 
-if [ $stage -le 22 ]; then
+if [ $stage -le 28 ]; then
   echo "$0: about to train model"
   steps/chain2/train.sh \
     --stage $train_stage --cmd "$train_cmd" \
     --xent-regularize $xent_regularize --leaky-hmm-coefficient 0.1 \
     --max-param-change 2.0 --use-gpu wait \
-    --num-jobs-initial 2 --num-jobs-final 5 \
+    --num-jobs-initial 4 --num-jobs-final 4 \
     --minibatch-size 256,128,64 \
      $dir/egs $dir || exit 1;
 fi
 
-if [ $stage -le 23 ]; then
+if [ $stage -le 29 ]; then
   # Note: it's not important to give mkgraph.sh the lang directory with the
   # matched topology (since it gets the topology file from the model).
   utils/mkgraph.sh \
@@ -341,29 +332,25 @@ if [ $stage -le 23 ]; then
     $tree_dir $tree_dir/graph || exit 1;
 fi
 
-if [ $stage -le 24 ]; then
+if [ $stage -le 30 ]; then
   frames_per_chunk=$(echo $chunk_width | cut -d, -f1)
   # Do the speaker-dependent decoding pass
   for data in $test_sets; do
-    (
-      nspk=$(wc -l <data/${data}_hires/spk2utt)
-      steps/nnet3/decode.sh \
-          --acwt 1.0 --post-decode-acwt 10.0 \
-          --extra-left-context $egs_left_context \
-          --extra-right-context $egs_right_context \
-          --extra-left-context-initial 0 \
-          --extra-right-context-final 0 \
-          --frames-per-chunk $frames_per_chunk \
-          --nj $nspk --cmd "$decode_cmd"  --num-threads 4 \
-          --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${data}_hires \
-          $tree_dir/graph data/${data}_hires ${dir}/decode_${data} || exit 1
-      steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" \
-        data/lang_test{,_tglarge} \
-       data/${data}_hires ${dir}/decode{,_tglarge}_${data} || exit 1
-    ) || touch $dir/.error &
+    nspk=$(wc -l <data/${data}_hires/spk2utt)
+    steps/nnet3/decode.sh \
+        --acwt 1.0 --post-decode-acwt 10.0 \
+        --extra-left-context $egs_left_context \
+        --extra-right-context $egs_right_context \
+        --extra-left-context-initial 0 \
+        --extra-right-context-final 0 \
+        --frames-per-chunk $frames_per_chunk \
+        --nj $NJ_DECODE --cmd "$decode_cmd"  --num-threads 4 \
+        --online-ivector-dir exp/nnet3${nnet3_affix}/ivectors_${data}_hires \
+        $tree_dir/graph data/${data}_hires ${dir}/decode_${data} || exit 1
+    # steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" \
+    #   data/lang_test{,_tglarge} \
+    #   data/${data}_hires ${dir}/decode{,_tglarge}_${data} || exit 1
   done
-  wait
-  [ -f $dir/.error ] && echo "$0: there was a problem while decoding" && exit 1
 fi
 
 exit 0;
