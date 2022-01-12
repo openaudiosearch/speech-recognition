@@ -1,12 +1,18 @@
 #!/bin/bash
 
-. ./cmd.sh
-. ./path.sh
 set -e
 
 stage=$STAGE
 test_set="cba_testdaten_kaldi"
 asr_nnet_dir=exp/vosk-model-de-0.21
+
+ln -s ../../wsj/s5/steps
+ln -s ../../wsj/s5/utils
+export KALDI_ROOT=`pwd`/../../..
+[ -f $KALDI_ROOT/tools/env.sh ] && . $KALDI_ROOT/tools/env.sh
+export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$PWD:$PATH
+[ ! -f $KALDI_ROOT/tools/config/common_path.sh ] && echo >&2 "The standard file $KALDI_ROOT/tools/config/common_path.sh is not present -> Exit!" && exit 1
+. $KALDI_ROOT/tools/config/common_path.sh
 
 # Download Vosk ASR model
 if [ ! -d "$asr_nnet_dir" ]; then
@@ -45,7 +51,7 @@ fi
 if [ $stage -le 0 ]; then
   dir=$asr_nnet_dir/decode_${test_set}
   mkdir -p $dir
-  lat_wspecifier="ark:|/opt/kaldi/src/latbin/lattice-scale --acoustic-scale=10.0 ark:- ark:- | gzip -c >$dir/lat.JOB.gz"
+  lat_wspecifier="ark:|/opt/kaldi/src/latbin/lattice-scale --acoustic-scale=10.0 ark:- ark:- | gzip -c >$dir/lat.1.gz"
   /opt/kaldi/src/online2bin/online2-wav-nnet3-latgen-faster --do-endpointing=false \
     --frames-per-chunk=20 \
     --mfcc-config=$asr_nnet_dir/conf/mfcc.conf \
@@ -57,40 +63,29 @@ if [ $stage -le 0 ]; then
     $asr_nnet_dir/am/final.mdl $asr_nnet_dir/graph/HCLG.fst ark:data/${test_set}/spk2utt \
     "ark,s,cs:/opt/kaldi/src/featbin/extract-segments scp,p:data/${test_set}/wav.scp data/${test_set}/segments ark:- |" \
     "$lat_wspecifier" || exit 1;
-
-  # steps/lmrescore_const_arpa.sh --cmd "$decode_cmd" \
-      #  data/lang_test{,_tglarge} \
-      # data/${data}_hires ${asr_nnet_dir}/decode{,_tglarge}_${data} || exit 1
-    # ) || touch $asr_nnet_dir/.error
-fi
-
-# N-gram LM rescoring
-if [ $stage -le 1 ]; then
-  indir=$asr_nnet_dir/decode_${test_set}
-  outdir=$asr_nnet_dir/decode_${test_set}_rescore
-  /opt/kaldi/src/latbin/lattice-lmrescore --lm-scale=-1.0 \
-    "ark:gunzip -c $indir/lat.JOB.gz|" \
-    "/opt/kaldi/tools/openfst/bin/fstproject --project_output=true $asr_nnet_dir/rescore/G.fst |" ark:- \| \
-    /opt/kaldi/src/latbin/lattice-lmrescore-const-arpa --lm-scale=1.0 \
-    ark:- "$asr_nnet_dir/rescore/G.carpa" "ark,t:|gzip -c>$outdir/lat.JOB.gz" || exit 1;
 fi
 
 # Perform scoring
-if [ $stage -le 2 ]; then
-  local/score.sh --cmd "$train_cmd" $scoring_opts data/${test_set} $asr_nnet_dir/graph $asr_nnet_dir/decode_${test_set}
-fi
-exit 0
-# Get automatic transcripts in Conversation Time Mark (CTM) format
-if [ $stage -le 3 ]; then
-  mkdir -p exp/ctm_${test_set}
-  local/get_ctm.sh --frame-shift 0.03 data/${test_set}_seg $asr_nnet_dir/data/lang $asr_nnet_dir/decode_${test_set}
+if [ $stage -le 1 ]; then
+  steps/score_kaldi.sh data/${test_set} $asr_nnet_dir/graph $asr_nnet_dir/decode_${test_set}
+  cat $asr_nnet_dir/decode_${test_set}/scoring_kaldi/best_wer
 fi
 
-# Reformat CTM files and split them according to recording IDs
-if [ $stage -le 4 ]; then
-  mkdir -p exp/ctm_${test_set}
-  awk '{print $2}' data/${test_set}_seg/segments | sort -u |\
-  while read rec; do
-    grep "$rec" $asr_nnet_dir/decode_${test_set}/score_10/${test_set}_seg.ctm | tr "-" "_" >exp/ctm_${test_set}/$rec.ctm
-  done
+# N-gram LM rescoring
+if [ $stage -le 2 ]; then
+  indir=$asr_nnet_dir/decode_${test_set}
+  outdir=$asr_nnet_dir/decode_${test_set}_rescore
+  mkdir -p $outdir
+  /opt/kaldi/src/latbin/lattice-lmrescore --lm-scale=-1.0 \
+    "ark:gunzip -c $indir/lat.1.gz|" \
+    "/opt/kaldi/tools/openfst/bin/fstproject --project_output=true $asr_nnet_dir/rescore/G.fst |" ark:- | \
+    /opt/kaldi/src/latbin/lattice-lmrescore-const-arpa --lm-scale=1.0 \
+    ark:- "$asr_nnet_dir/rescore/G.carpa" "ark,t:|gzip -c>$outdir/lat.1.gz" || exit 1;
 fi
+
+# Perform scoring
+if [ $stage -le 3 ]; then
+  steps/score_kaldi.sh data/${test_set} $asr_nnet_dir/graph $asr_nnet_dir/decode_${test_set}_rescore
+  cat $asr_nnet_dir/decode_${test_set}_rescore/scoring_kaldi/best_wer
+fi
+exit 0
