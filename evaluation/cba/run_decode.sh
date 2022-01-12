@@ -6,7 +6,7 @@ set -e
 
 stage=0
 test_sets="cba_testdaten_kaldi"
-asr_nnet_dir=exp/chain2/tdnn1b_sp
+asr_nnet_dir=$ASR_NNET_DIR
 nnet3_affix=
 tree_affix=
 chunk_width=140,100,160
