@@ -1,0 +1,23 @@
+version: '3'
+services:
+  asr-eval:
+    # stdin_open: true
+    # tty: true
+    image: openaudiosearch/asr-eval:0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - /mnt/data2/projects/TALP/oas/cba_test_200408:/data/cba_test_200408:ro
+      - /mnt/data2/projects/TALP/oas/vosk-model-de-0.21:/opt/kaldi/egs/oas/s5/exp/vosk-model-de-0.21
+    environment:
+      - STAGE=0
+      - ASR_NNET_DIR=exp/vosk-model-de-0.21
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0', '1', '2', '3']
+              capabilities:
+              - gpu

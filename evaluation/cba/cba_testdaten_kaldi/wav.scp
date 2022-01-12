@@ -1,59 +1,59 @@
-04c7f935bcea41725a7a0b1833cce375 sox -R /data/cba_test_200408/wav/04c7f935bcea41725a7a0b1833cce375.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-0b9a453df38ae7842cbd92f4161727db sox -R /data/cba_test_200408/wav/0b9a453df38ae7842cbd92f4161727db.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-0d1a83905719247fc8a7333c95943712 sox -R /data/cba_test_200408/wav/0d1a83905719247fc8a7333c95943712.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-15004cf7ba7a9a25ffe659b70fb262d7 sox -R /data/cba_test_200408/wav/15004cf7ba7a9a25ffe659b70fb262d7.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-1a6d8e834e5818490751c10bdd590890 sox -R /data/cba_test_200408/wav/1a6d8e834e5818490751c10bdd590890.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-1a8cef96e674ff890ac4979e524b1fc9 sox -R /data/cba_test_200408/wav/1a8cef96e674ff890ac4979e524b1fc9.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-2495e0adda5e4c0ab796ab1aeed6a48c sox -R /data/cba_test_200408/wav/2495e0adda5e4c0ab796ab1aeed6a48c.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-27880b8de055016d1050a77d433b919b sox -R /data/cba_test_200408/wav/27880b8de055016d1050a77d433b919b.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-27a60926d03829e722824e1aefd935d3 sox -R /data/cba_test_200408/wav/27a60926d03829e722824e1aefd935d3.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-3893261764d85219e41d05c77f3e001c sox -R /data/cba_test_200408/wav/3893261764d85219e41d05c77f3e001c.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-39fe9c28b86159e5e1c3ab05b630b60f sox -R /data/cba_test_200408/wav/39fe9c28b86159e5e1c3ab05b630b60f.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-3da8d069f2eff309a40d130c33b24c81 sox -R /data/cba_test_200408/wav/3da8d069f2eff309a40d130c33b24c81.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-416eaec8f4c9043259f881316c9deb97 sox -R /data/cba_test_200408/wav/416eaec8f4c9043259f881316c9deb97.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-43530d3218aa0225e787e03ef0b5014a sox -R /data/cba_test_200408/wav/43530d3218aa0225e787e03ef0b5014a.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-4ac6fabdb1baf7942c41f29749c12e18 sox -R /data/cba_test_200408/wav/4ac6fabdb1baf7942c41f29749c12e18.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-4f5a8bd6209c7a18e82b8bb497c09e94 sox -R /data/cba_test_200408/wav/4f5a8bd6209c7a18e82b8bb497c09e94.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-54fe09e6cc1accbe06c11eb8b6d9f1cf sox -R /data/cba_test_200408/wav/54fe09e6cc1accbe06c11eb8b6d9f1cf.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-59b7631544d75e96b61e8645587d0278 sox -R /data/cba_test_200408/wav/59b7631544d75e96b61e8645587d0278.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-5af9cca44fadd04c465782bda0442483 sox -R /data/cba_test_200408/wav/5af9cca44fadd04c465782bda0442483.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-5cf103e21fc75a931b30da30d374e790 sox -R /data/cba_test_200408/wav/5cf103e21fc75a931b30da30d374e790.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-5e3fe02295ad71d32e06c60189f5f783 sox -R /data/cba_test_200408/wav/5e3fe02295ad71d32e06c60189f5f783.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-5f2a76fc3fc286daa24a14fd15957c92 sox -R /data/cba_test_200408/wav/5f2a76fc3fc286daa24a14fd15957c92.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-5f6e9a1b92578b64ed7265f9245fabac sox -R /data/cba_test_200408/wav/5f6e9a1b92578b64ed7265f9245fabac.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-6092e52aff21432c4a71c7ece490247d sox -R /data/cba_test_200408/wav/6092e52aff21432c4a71c7ece490247d.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-61b0198414f5ae23a55ed578e606f147 sox -R /data/cba_test_200408/wav/61b0198414f5ae23a55ed578e606f147.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-6219c6806cb719b3c08576fe3fff0999 sox -R /data/cba_test_200408/wav/6219c6806cb719b3c08576fe3fff0999.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-67047e296bdc5629973ef6de6c14fd4f sox -R /data/cba_test_200408/wav/67047e296bdc5629973ef6de6c14fd4f.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-69617c26a7f5a7e12ad2d7c95c1a0e96 sox -R /data/cba_test_200408/wav/69617c26a7f5a7e12ad2d7c95c1a0e96.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-6d6950939d8a9442664de065be5c1347 sox -R /data/cba_test_200408/wav/6d6950939d8a9442664de065be5c1347.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-715cb22ed3cc9306588a89ce7cb9b7ca sox -R /data/cba_test_200408/wav/715cb22ed3cc9306588a89ce7cb9b7ca.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-78c12e02992b0571ddd7459a6492f2bf sox -R /data/cba_test_200408/wav/78c12e02992b0571ddd7459a6492f2bf.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-79c6fc4db4e150b24300af4d98158ebc sox -R /data/cba_test_200408/wav/79c6fc4db4e150b24300af4d98158ebc.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-7e1079243603dd1dbde1ecbf80856d94 sox -R /data/cba_test_200408/wav/7e1079243603dd1dbde1ecbf80856d94.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-8005c8b22cca329488f5eb0614a65b33 sox -R /data/cba_test_200408/wav/8005c8b22cca329488f5eb0614a65b33.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-814990205befd7f51810d1d4a168b3e5 sox -R /data/cba_test_200408/wav/814990205befd7f51810d1d4a168b3e5.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-8d7ee018509d0c3fd0541bd2570ea074 sox -R /data/cba_test_200408/wav/8d7ee018509d0c3fd0541bd2570ea074.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-903a901a472b985019d6914ba12ecadf sox -R /data/cba_test_200408/wav/903a901a472b985019d6914ba12ecadf.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-967512fb3f9d7ab414f5d509676fcbf7 sox -R /data/cba_test_200408/wav/967512fb3f9d7ab414f5d509676fcbf7.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-a1a574a116612b3a7c551d69246f68cf sox -R /data/cba_test_200408/wav/a1a574a116612b3a7c551d69246f68cf.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-a4b1b02eca2adb968e934878469e0488 sox -R /data/cba_test_200408/wav/a4b1b02eca2adb968e934878469e0488.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-a4f93e1404bd4c87f96aebc98a96484f sox -R /data/cba_test_200408/wav/a4f93e1404bd4c87f96aebc98a96484f.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-b3493fd42a8e62e29abfbd029601dab2 sox -R /data/cba_test_200408/wav/b3493fd42a8e62e29abfbd029601dab2.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-b4a03e01b7bb2b6552223aa866eb3cbf sox -R /data/cba_test_200408/wav/b4a03e01b7bb2b6552223aa866eb3cbf.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-b769f43af3d0c0fdd7cdb9101e1e6d6a sox -R /data/cba_test_200408/wav/b769f43af3d0c0fdd7cdb9101e1e6d6a.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-bd7846cf1059b05243ba63dddba6d2c8 sox -R /data/cba_test_200408/wav/bd7846cf1059b05243ba63dddba6d2c8.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-bf9cf359064373525cf8222811019386 sox -R /data/cba_test_200408/wav/bf9cf359064373525cf8222811019386.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-bfcaf428fa48b871a2d999f8616514bd sox -R /data/cba_test_200408/wav/bfcaf428fa48b871a2d999f8616514bd.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-c0e8f21701892977ca0d7f844c9a46f7 sox -R /data/cba_test_200408/wav/c0e8f21701892977ca0d7f844c9a46f7.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-c26cd628d13fc990cddc1b79d08d7f1d sox -R /data/cba_test_200408/wav/c26cd628d13fc990cddc1b79d08d7f1d.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-caf9692a9582ae973c90c3303c4985c8 sox -R /data/cba_test_200408/wav/caf9692a9582ae973c90c3303c4985c8.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-cb0d61f7ce4e7e21498a4ceb797341c0 sox -R /data/cba_test_200408/wav/cb0d61f7ce4e7e21498a4ceb797341c0.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-cc09c22e516cc60a2bf42eba68d394d9 sox -R /data/cba_test_200408/wav/cc09c22e516cc60a2bf42eba68d394d9.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-cd8aacdf3db86b38b421a98b56cc13c4 sox -R /data/cba_test_200408/wav/cd8aacdf3db86b38b421a98b56cc13c4.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-d7d4030b2aae7366dc09db135c03c1e3 sox -R /data/cba_test_200408/wav/d7d4030b2aae7366dc09db135c03c1e3.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-dd230cff278fecb362a04c099fbd43fd sox -R /data/cba_test_200408/wav/dd230cff278fecb362a04c099fbd43fd.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-e39bdfeec36862cd7cd5652be19f6f37 sox -R /data/cba_test_200408/wav/e39bdfeec36862cd7cd5652be19f6f37.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-ebf9a8a42943375b37bad42c08a5a949 sox -R /data/cba_test_200408/wav/ebf9a8a42943375b37bad42c08a5a949.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-f604e82f7b5db0d723ca15735680f7cc sox -R /data/cba_test_200408/wav/f604e82f7b5db0d723ca15735680f7cc.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
-fa8f82357e0ef9db903f7ac06833c75c sox -R /data/cba_test_200408/wav/fa8f82357e0ef9db903f7ac06833c75c.wav -t wav -r 16k -b 16 -e signed-integer - channels 1 |
+04c7f935bcea41725a7a0b1833cce375 /data/cba_test_200408/04c7f935bcea41725a7a0b1833cce375.wav
+0b9a453df38ae7842cbd92f4161727db /data/cba_test_200408/0b9a453df38ae7842cbd92f4161727db.wav
+0d1a83905719247fc8a7333c95943712 /data/cba_test_200408/0d1a83905719247fc8a7333c95943712.wav
+15004cf7ba7a9a25ffe659b70fb262d7 /data/cba_test_200408/15004cf7ba7a9a25ffe659b70fb262d7.wav
+1a6d8e834e5818490751c10bdd590890 /data/cba_test_200408/1a6d8e834e5818490751c10bdd590890.wav
+1a8cef96e674ff890ac4979e524b1fc9 /data/cba_test_200408/1a8cef96e674ff890ac4979e524b1fc9.wav
+2495e0adda5e4c0ab796ab1aeed6a48c /data/cba_test_200408/2495e0adda5e4c0ab796ab1aeed6a48c.wav
+27880b8de055016d1050a77d433b919b /data/cba_test_200408/27880b8de055016d1050a77d433b919b.wav
+27a60926d03829e722824e1aefd935d3 /data/cba_test_200408/27a60926d03829e722824e1aefd935d3.wav
+3893261764d85219e41d05c77f3e001c /data/cba_test_200408/3893261764d85219e41d05c77f3e001c.wav
+39fe9c28b86159e5e1c3ab05b630b60f /data/cba_test_200408/39fe9c28b86159e5e1c3ab05b630b60f.wav
+3da8d069f2eff309a40d130c33b24c81 /data/cba_test_200408/3da8d069f2eff309a40d130c33b24c81.wav
+416eaec8f4c9043259f881316c9deb97 /data/cba_test_200408/416eaec8f4c9043259f881316c9deb97.wav
+43530d3218aa0225e787e03ef0b5014a /data/cba_test_200408/43530d3218aa0225e787e03ef0b5014a.wav
+4ac6fabdb1baf7942c41f29749c12e18 /data/cba_test_200408/4ac6fabdb1baf7942c41f29749c12e18.wav
+4f5a8bd6209c7a18e82b8bb497c09e94 /data/cba_test_200408/4f5a8bd6209c7a18e82b8bb497c09e94.wav
+54fe09e6cc1accbe06c11eb8b6d9f1cf /data/cba_test_200408/54fe09e6cc1accbe06c11eb8b6d9f1cf.wav
+59b7631544d75e96b61e8645587d0278 /data/cba_test_200408/59b7631544d75e96b61e8645587d0278.wav
+5af9cca44fadd04c465782bda0442483 /data/cba_test_200408/5af9cca44fadd04c465782bda0442483.wav
+5cf103e21fc75a931b30da30d374e790 /data/cba_test_200408/5cf103e21fc75a931b30da30d374e790.wav
+5e3fe02295ad71d32e06c60189f5f783 /data/cba_test_200408/5e3fe02295ad71d32e06c60189f5f783.wav
+5f2a76fc3fc286daa24a14fd15957c92 /data/cba_test_200408/5f2a76fc3fc286daa24a14fd15957c92.wav
+5f6e9a1b92578b64ed7265f9245fabac /data/cba_test_200408/5f6e9a1b92578b64ed7265f9245fabac.wav
+6092e52aff21432c4a71c7ece490247d /data/cba_test_200408/6092e52aff21432c4a71c7ece490247d.wav
+61b0198414f5ae23a55ed578e606f147 /data/cba_test_200408/61b0198414f5ae23a55ed578e606f147.wav
+6219c6806cb719b3c08576fe3fff0999 /data/cba_test_200408/6219c6806cb719b3c08576fe3fff0999.wav
+67047e296bdc5629973ef6de6c14fd4f /data/cba_test_200408/67047e296bdc5629973ef6de6c14fd4f.wav
+69617c26a7f5a7e12ad2d7c95c1a0e96 /data/cba_test_200408/69617c26a7f5a7e12ad2d7c95c1a0e96.wav
+6d6950939d8a9442664de065be5c1347 /data/cba_test_200408/6d6950939d8a9442664de065be5c1347.wav
+715cb22ed3cc9306588a89ce7cb9b7ca /data/cba_test_200408/715cb22ed3cc9306588a89ce7cb9b7ca.wav
+78c12e02992b0571ddd7459a6492f2bf /data/cba_test_200408/78c12e02992b0571ddd7459a6492f2bf.wav
+79c6fc4db4e150b24300af4d98158ebc /data/cba_test_200408/79c6fc4db4e150b24300af4d98158ebc.wav
+7e1079243603dd1dbde1ecbf80856d94 /data/cba_test_200408/7e1079243603dd1dbde1ecbf80856d94.wav
+8005c8b22cca329488f5eb0614a65b33 /data/cba_test_200408/8005c8b22cca329488f5eb0614a65b33.wav
+814990205befd7f51810d1d4a168b3e5 /data/cba_test_200408/814990205befd7f51810d1d4a168b3e5.wav
+8d7ee018509d0c3fd0541bd2570ea074 /data/cba_test_200408/8d7ee018509d0c3fd0541bd2570ea074.wav
+903a901a472b985019d6914ba12ecadf /data/cba_test_200408/903a901a472b985019d6914ba12ecadf.wav
+967512fb3f9d7ab414f5d509676fcbf7 /data/cba_test_200408/967512fb3f9d7ab414f5d509676fcbf7.wav
+a1a574a116612b3a7c551d69246f68cf /data/cba_test_200408/a1a574a116612b3a7c551d69246f68cf.wav
+a4b1b02eca2adb968e934878469e0488 /data/cba_test_200408/a4b1b02eca2adb968e934878469e0488.wav
+a4f93e1404bd4c87f96aebc98a96484f /data/cba_test_200408/a4f93e1404bd4c87f96aebc98a96484f.wav
+b3493fd42a8e62e29abfbd029601dab2 /data/cba_test_200408/b3493fd42a8e62e29abfbd029601dab2.wav
+b4a03e01b7bb2b6552223aa866eb3cbf /data/cba_test_200408/b4a03e01b7bb2b6552223aa866eb3cbf.wav
+b769f43af3d0c0fdd7cdb9101e1e6d6a /data/cba_test_200408/b769f43af3d0c0fdd7cdb9101e1e6d6a.wav
+bd7846cf1059b05243ba63dddba6d2c8 /data/cba_test_200408/bd7846cf1059b05243ba63dddba6d2c8.wav
+bf9cf359064373525cf8222811019386 /data/cba_test_200408/bf9cf359064373525cf8222811019386.wav
+bfcaf428fa48b871a2d999f8616514bd /data/cba_test_200408/bfcaf428fa48b871a2d999f8616514bd.wav
+c0e8f21701892977ca0d7f844c9a46f7 /data/cba_test_200408/c0e8f21701892977ca0d7f844c9a46f7.wav
+c26cd628d13fc990cddc1b79d08d7f1d /data/cba_test_200408/c26cd628d13fc990cddc1b79d08d7f1d.wav
+caf9692a9582ae973c90c3303c4985c8 /data/cba_test_200408/caf9692a9582ae973c90c3303c4985c8.wav
+cb0d61f7ce4e7e21498a4ceb797341c0 /data/cba_test_200408/cb0d61f7ce4e7e21498a4ceb797341c0.wav
+cc09c22e516cc60a2bf42eba68d394d9 /data/cba_test_200408/cc09c22e516cc60a2bf42eba68d394d9.wav
+cd8aacdf3db86b38b421a98b56cc13c4 /data/cba_test_200408/cd8aacdf3db86b38b421a98b56cc13c4.wav
+d7d4030b2aae7366dc09db135c03c1e3 /data/cba_test_200408/d7d4030b2aae7366dc09db135c03c1e3.wav
+dd230cff278fecb362a04c099fbd43fd /data/cba_test_200408/dd230cff278fecb362a04c099fbd43fd.wav
+e39bdfeec36862cd7cd5652be19f6f37 /data/cba_test_200408/e39bdfeec36862cd7cd5652be19f6f37.wav
+ebf9a8a42943375b37bad42c08a5a949 /data/cba_test_200408/ebf9a8a42943375b37bad42c08a5a949.wav
+f604e82f7b5db0d723ca15735680f7cc /data/cba_test_200408/f604e82f7b5db0d723ca15735680f7cc.wav
+fa8f82357e0ef9db903f7ac06833c75c /data/cba_test_200408/fa8f82357e0ef9db903f7ac06833c75c.wav
