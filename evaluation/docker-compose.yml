@@ -7,9 +7,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:
-      - /mnt/data2/projects/TALP/oas/cba_test_200408:/data/cba_test_200408:ro
-      - /mnt/data2/projects/TALP/oas/vosk-model-de-0.21:/opt/kaldi/egs/oas/s5/exp/vosk-model-de-0.21
     environment:
       - STAGE=0
       - ASR_NNET_DIR=exp/vosk-model-de-0.21
@@ -18,6 +15,6 @@ services:
         reservations:
           devices:
             - driver: nvidia
-              device_ids: ['0', '1', '2', '3']
+              device_ids: ['0']
               capabilities:
               - gpu

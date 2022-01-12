@@ -4,4 +4,7 @@ In diesem Ordner befinden sich Evaluationspipelines für spezifische Evaluations
 
 - `cba`: Testdatensatz des Cultural Broadcasting Archives (CBA)
 
-- `orf`: Einzelne Testdatei des ORF, bereitgestellt von Christoph Bauer, ORF Multimediales Archiv
+Um die Evaluationspipeline auszuführen, sind folgende Befehle auszuführen:
+
+1. `docker-compose build`
+2. `docker-compose run asr-eval`

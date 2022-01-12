@@ -58,11 +58,16 @@ COPY --from=build /opt/kaldi /opt/kaldi
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Vienna
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y --no-install-recommends wget unzip \
         locales sox python2.7 python3 python-is-python3 libgfortran5 libencode-perl liblbfgs0 \
+        python3-pip python3-wheel python3-setuptools \
     && apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
+
+RUN python3 -m pip install --upgrade pip
+
+RUN pip3 install --user gdown
 
 RUN locale-gen de_DE.UTF-8
 ENV LC_ALL=de_DE.UTF-8

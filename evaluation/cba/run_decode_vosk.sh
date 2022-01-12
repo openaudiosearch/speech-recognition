@@ -17,7 +17,7 @@ export PATH=$PWD/utils/:$KALDI_ROOT/tools/openfst/bin:$PWD:$PATH
 # Download Vosk ASR model
 if [ ! -d "$asr_nnet_dir" ]; then
   wget -O /tmp/vosk-model-de-0.21.zip https://alphacephei.com/vosk/models/vosk-model-de-0.21.zip
-  unzip -q -d exp/ /tmp/vosk-model-de-0.21.zip
+  unzip -d exp/ /tmp/vosk-model-de-0.21.zip
   rm /tmp/vosk-model-de-0.21.zip
 fi
 
@@ -39,12 +39,12 @@ cat >$asr_nnet_dir/conf/ivector_extractor.conf <<EOF
 EOF
 
 if [ ! -d "/data/cba_test_200408" ]; then
-  # Install gdown if it isn't available
-  if [ ! command -v gdown &>/dev/null ]; then
-    pip install --user gdown
-  fi
   # Download CBA test audio data
-  gdown https://drive.google.com/uc?id=1RX83596ZzMxjDhzcvoakO33HqB6zTAA8
+  ~/.local/bin/gdown -O /tmp/cba_test_200408.tar.gz https://drive.google.com/uc?id=1RX83596ZzMxjDhzcvoakO33HqB6zTAA8
+  mkdir -p /data
+  cd /data/
+  tar xvf /tmp/cba_test_200408.tar.gz
+  cd /opt/kaldi/egs/oas/s5
 fi
 
 # Perform speech recognition
